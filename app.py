@@ -1,22 +1,51 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, json, request
+from flask_cors import CORS
+import pymysql
 
 app = Flask(__name__)
+CORS(app)
 
-@app.route('/')
-def index() :
-    return render_template('home.html')
+con = None
+cursor = None
 
-@app.route('/home')
-def home() :
-    return render_template('home2.html')
+#db 연결한당
+def getCursor():
+    global con, cursor
+    con = pymysql.connect(
+        host='127.0.0.1',
+        user='root',
+        password='',
+        db='flask-board',
+        autocommit='true',
+        charset='utf8')
+    cursor = con.cursor(pymysql.cursors.DictCursor)
 
-@app.route('/test')
-def test() :
-    aa = {
-        "a":"1",
-        "b":"2"
-    }
-    return jsonify(aa)
+#db 닫기
+def conClose() :
+    con.close()
 
+#게시글 리스트
+@app.route("/board", methods=["GET"])
+def getList() :
+    sql = "SELECT * FROM board order by `date` desc"
+    getCursor()
+    cursor.execute(sql)
+    data = cursor.fetchall()
+    conClose()
+    return json.dumps(data)
+
+#글보기 페이지
+@app.route("/board/<idx>", methods=['GET'])
+def getView(idx) :
+    sql = "SELECT * FROM board where idx=%s"
+    getCursor()
+    cursor.execute(sql,(idx))
+    data = cursor.fetchone()
+    conClose()
+    return json.dumps(data)
+
+@app.route("/member", methods=['POST'])
+def memberAdd() :
+    sql = 
 if __name__ == '__main__' :
     app.run(debug=True)
