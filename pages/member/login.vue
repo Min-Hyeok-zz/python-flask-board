@@ -28,7 +28,7 @@ export default {
       const _this = this
       mh.postData(url, mh.serialize(frm), data => {
         console.log(data)
-        if (!data[0]) {
+        if (!data) {
           alert('아이디 또는 비밀번호가 일치하지 않습니다.')
         } else{
           _this.$store.commit('login',data)

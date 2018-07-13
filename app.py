@@ -60,6 +60,21 @@ def memberAdd() :
         cursor.execute(sql,(id,pw,name))
         conClose()
         return "true"
-    
+
+#로그인
+@app.route("/login", methods=['POST'])
+def memberLogin() :
+    id = request.form['id']
+    pw = request.form['pw']
+    chk = "SELECT * FROM member where id=%s and pw=%s"
+    getCursor()
+    data = cursor.execute(chk,(id,pw))
+    if data == "" :
+        conClose()
+        return "false"
+    else :
+        conClose()
+        return json.dumps(data)
+
 if __name__ == '__main__' :
     app.run(debug=True)
