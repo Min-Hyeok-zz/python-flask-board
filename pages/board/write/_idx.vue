@@ -23,8 +23,7 @@ export default {
   },
   async asyncData ({ params }, callback) {
     mh.getData(`/board/${params.idx}`, (data) => {
-      console.log(data)
-      callback(null, { view: data[0] })
+      callback(null, { view: data })
     })
   },
   data () {
@@ -36,7 +35,7 @@ export default {
     async boardUpdate (e) {
         const _this = this
         const idx = this.$route.params.idx
-        const url = `/board/${idx}`
+        const url = `/board/update/${idx}`
         const frm = e.target
         console.log(mh.serialize(frm))
         mh.putData(url, mh.serialize(frm), data => {

@@ -76,5 +76,45 @@ def memberLogin() :
         conClose()
         return json.dumps(data)
 
+#글작성
+@app.route("/board", methods=['POST'])
+def boardAdd() :
+    writer = request.form['writer']
+    subject = request.form['subject']
+    content = request.form['content']
+    sql = "INSERT INTO board SET writer=%s,subject=%s,content=%s,date=now()"
+    getCursor()
+    cursor.execute(sql,(writer,subject,content))
+    conClose()
+    return "true"
+
+#글수정 데이터
+@app.route("/board/update/<idx>", methods=['GET'])
+def boardUpdateView(idx) :
+    sql = "SELECT * FROM board where idx=%s"
+    getCursor()
+    data = cursor.execute(sql,(idx))
+    return json.dumps(data)
+
+#글수정
+@app.route("/board/update/<idx>", methods=['PUT'])
+def boardUpdate(idx) :
+    subject = request.form['subject']
+    content = request.form['content']
+    sql = "UPDATE board SET subject=%s,content=%s where idx=%s"
+    getCursor()
+    cursor.execute(sql,(susbject,content,idx))
+    conClose()
+    return "true"
+
+#글삭제
+@app.route("/board/delete/<idx>", methods=['DELETE'])
+def boardDelete(idx) :
+    sql = "DELETE FROM board where idx=%s"
+    getCursor()
+    cursor.execute(sql,(idx))
+    conClose()
+    return "true"
+
 if __name__ == '__main__' :
     app.run(debug=True)
