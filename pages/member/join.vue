@@ -28,7 +28,7 @@ export default {
             const url = `/member`
             const _this = this
             mh.postData(url, mh.serialize(frm), data => {
-                if (data[0]) {
+                if (data == false) {
                     alert('중복된 아이디 입니다.')
                 } else {
                     alert('회원가입이 완료되었습니다.')

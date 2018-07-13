@@ -44,8 +44,22 @@ def getView(idx) :
     conClose()
     return json.dumps(data)
 
+#회원가입
 @app.route("/member", methods=['POST'])
 def memberAdd() :
-    sql = 
+    id = request.form['id']
+    pw = request.form['pw']
+    name = request.form['name']
+    chk = "SELECT * FROM member where id=%s"
+    getCursor()
+    if cursor.execute(chk,(id)) :
+        conClose()
+        return "false"
+    else :
+        sql = "INSERT INTO member SET id=%s,pw=%s,name=%s"
+        cursor.execute(sql,(id,pw,name))
+        conClose()
+        return "true"
+    
 if __name__ == '__main__' :
     app.run(debug=True)
