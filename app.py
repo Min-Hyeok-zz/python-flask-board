@@ -103,7 +103,7 @@ def boardUpdate(idx) :
     content = request.form['content']
     sql = "UPDATE board SET subject=%s,content=%s where idx=%s"
     getCursor()
-    cursor.execute(sql,(susbject,content,idx))
+    cursor.execute(sql,(subject,content,idx))
     conClose()
     return "true"
 

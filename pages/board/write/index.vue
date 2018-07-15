@@ -58,12 +58,12 @@ export default {
   methods: {
     async boardAdd (e) {
       e.preventDefault();
-      const url = '/api/board'
+      const url = '/board'
       const frm = e.target
       const _this = this
       mh.postData(url, mh.serialize(frm), data => {
         alert('완료되었습니다.')
-        _this.$router.push(`./view/${data.insertId}`)
+        _this.$router.push(`/board/list`)
       })
     }
   }
